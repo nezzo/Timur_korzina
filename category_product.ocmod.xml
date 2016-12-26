@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <modification>
+  <name>Ожидается поставка</name>
+  <code>category_product_quantity</code>
+  <version>1.0</version>
+  <author>Легуша Артур</author>
+  <link>http://www.isyms.ru</link>
+  
+  <file path="catalog/controller/product/category.php">
+        <operation>
+            <search trim="true|false" index="0"><![CDATA['thumb'       => $image,]]></search>
+            <add position="after" offset="1"><![CDATA[
+            'quantity'   => $result['quantity'],   
+            ]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/module/featured.php">
+        <operation>
+            <search trim="true|false" index="0"><![CDATA['thumb'       => $image,]]></search>
+            <add position="after" offset="1"><![CDATA[
+            'quantity'   => $product_info['quantity'],   
+            ]]></add>
+        </operation>
+    </file>
+</modification>
