@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
   <modification>
-  <name>Ожидается поставка</name>
+  <name>Ожидается поставка+корзина</name>
   <code>category_product_quantity</code>
   <version>1.0</version>
   <author>Легуша Артур</author>
@@ -22,4 +22,35 @@
             ]]></add>
         </operation>
     </file>
+    <file path="catalog/controller/checkout/cart.php">
+        <operation>
+            <search trim="true|false" index="0"><![CDATA[// Update]]></search>
+            <add position="before" offset="1"><![CDATA[
+          $mas_json = json_decode($this->request->post['dat_quantity'], true);
+          $cart_json = json_decode($this->request->post['cart_id'], true);
+           $mas = array(
+            $cart_json => $mas_json
+          );
+    ]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/checkout/cart.php">
+        <operation>
+            <search trim="true|false" index="1"><![CDATA[$this->response->addHeader('Content-Type: application/json');]]></search>
+            <add position="before" offset="1"><![CDATA[
+            if(!empty($mas)){
+                foreach ($mas as $key => $value) {
+                $this->cart->update($key, $value);
+              }
+              unset($this->session->data['shipping_method']);
+              unset($this->session->data['shipping_methods']);
+              unset($this->session->data['payment_method']);
+              unset($this->session->data['payment_methods']);
+              unset($this->session->data['reward']); 
+              }  
+            ]]></add>
+        </operation>
+    </file>
+    
 </modification>
